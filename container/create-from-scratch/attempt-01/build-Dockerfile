@@ -1,0 +1,12 @@
+  FROM gcc:4.9
+# FROM gcc:latest
+# FROM gcc:bullseye
+COPY prog.c /prog.c
+# CMD ["gcc", "-std=c99", "-static", "-o", "/out/hello", "/prog.c"]
+CMD [
+     "gcc",
+#    "-std=c99",
+     "-static",   # Kind of important ??
+     "-o", "/out/prog",
+     "/prog.c"
+]
