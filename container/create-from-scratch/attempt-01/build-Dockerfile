@@ -1,12 +1,8 @@
-  FROM gcc:4.9
-# FROM gcc:latest
+# FROM gcc:4.9
+  FROM gcc:latest
 # FROM gcc:bullseye
 COPY prog.c /prog.c
 # CMD ["gcc", "-std=c99", "-static", "-o", "/out/hello", "/prog.c"]
-CMD [
-     "gcc",
 #    "-std=c99",
-     "-static",   # Kind of important ??
-     "-o", "/out/prog",
-     "/prog.c"
-]
+#     -static: kind of important
+CMD [ "gcc", "--static", "-o", "/out/prog-compiled-in-builder-image", "/prog.c" ]

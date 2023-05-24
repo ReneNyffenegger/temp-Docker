@@ -1,3 +1,3 @@
 FROM scratch
-copy prog /
+copy prog-compiled-in-builder-image /prog
 CMD ["/prog"]
