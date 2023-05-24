@@ -11,3 +11,13 @@ most comprehensive repository of container images,
 
 Docker registries are used to host and distribute Docker Images
 Docker Hub is Docker’s official cloud-based registry
+
+-----------------------------
+
+Get tags of an image in the hub
+
+
+IMAGE=gcc
+wget -q -O - "https://hub.docker.com/v2/namespaces/library/repositories/$IMAGE/tags?page_size=100" | grep -o '"name": *"[^"]*' | grep -o '[^"]*$'
+wget -q -O - "https://hub.docker.com/v2/namespaces/library/repositories/$IMAGE/tags?page_size=100" |  jq .results[].name
+curl -L -s   "https://hub.docker.com/v2/namespaces/library/repositories/$IMAGE/tags?page_size=100" |  jq .results[].name
