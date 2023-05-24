@@ -1,0 +1,13 @@
+Docker Hub is the world’s largest repository of container images 
+
+Docker Hub is a hosted repository service provided by Docker for finding and sharing container images with your team. 
+
+Docker Hub offers a hosted -> registry with additional features such as teams,
+organizations, web hooks, automated builds, etc, see Docker Hub.
+
+We can consider Docker Hub as a service from Docker for locating and
+distributing containers for each image within the specified team. It is the
+most comprehensive repository of container images,
+
+Docker registries are used to host and distribute Docker Images
+Docker Hub is Docker’s official cloud-based registry
