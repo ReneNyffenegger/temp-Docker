@@ -1,0 +1,1 @@
+docker build --build-arg MY_ARGUMENT=my-value -t my-image .
