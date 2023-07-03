@@ -13,4 +13,5 @@ RUN chmod +x /script.sh
 # Run the shell script with the provided argument
 # CMD ["/script.sh", "$MY_ARGUMENT"]                      Variables are not expanded
 # CMD ["/script.sh", "${MY_ARGUMENT}"]                      Variables are not expanded
-CMD exec /script.sh $MY_ARGUMENT
+# CMD exec /script.sh $MY_ARGUMENT
+CMD /script.sh $MY_ARGUMENT
