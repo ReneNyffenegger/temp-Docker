@@ -1,7 +1,7 @@
-buildtype=$1
+buildtype=DEBUG
 
 echo buildtype = $buildtype
 
-if [ $builtype -eq 'DEBUG' ]; then
-   echo some debug message"
+if [ $buildtype = DEBUG ]; then
+   echo "some debug message"
 fi
