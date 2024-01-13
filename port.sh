@@ -47,10 +47,13 @@ $ docker port port-published-test
 
 # other tests
   docker run --name port-published-test --rm -i -t -p 8001:8001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 127.0.0.1'
-  docker run --name port-published-test --rm -i -t -p 8001:7001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 0.0.0.0' 
+  docker run --name port-published-test --rm -i -t -p 8001:7001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 0.0.0.0'          # 
+
 
 # This works, too 
   docker run --name port-published-test --rm -i -t -p 8001:8001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 0.0.0.0'          # -->  Use curl   http://127.0.0.1:8001/netconfig
+
+  docker run --name port-published-test --rm -i -t -p 7001:8001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 0.0.0.0'          # --> curl http://127.0.0.1:7001/netconfig  (Access port 8001 on port 7001)
 
 
 
@@ -90,3 +93,41 @@ $ curl   http://127.0.0.1:1234/
 curl: (56) Recv failure: Connection reset by peer
 
 # ---------------------------------------------------------
+
+# communicate with each other
+
+  docker run --name communication-test-server --rm -i -t --ip 172.18.0.42  -p 8001:8001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 0.0.0.0'
+
+  IPSERVER=$( docker inspect communication-test-server | jq ".[0].NetworkSettings.Networks.\"client-server-network\".IPAddress" )
+
+  docker run --name communication-test-client --rm -i -t              python:alpine  /bin/sh -c 'wget http://localhost:8001'
+
+# ---------------------------------------------------------
+
+  docker network create -d bridge client-server-network
+
+  docker run --name communication-test-server --rm -i -t --network client-server-network python:alpine  /bin/sh -c 'python -m http.server 8001 -d /etc --bind 0.0.0.0'
+
+   Debian ~ curl http://localhost:8001/
+   curl: (7) Failed to connect to localhost port 8001: Connection refused
+
+  docker run --name communication-test-client --rm -i -t --network client-server-network python:alpine  /bin/sh -c 'wget http://localhost:8001'
+
+# --------------------------
+  #  access port on host
+
+  # On host
+    
+  python3 -m http.server 8001 --bind 0.0.0.0
+
+  docker run                 --rm -i -t                python:alpine /bin/sh -c 'wget http://localhost:8001/'
+
+  docker run  --network host --rm -i -t                python:alpine /bin/sh -c 'wget http://localhost:8001/'
+
+  docker run  --network host --rm -i -t --hostname xyz python:alpine /bin/sh -c 'wget http://localhost:8001/'
+
+# --------------------------
+  # Hostname
+
+
+  docker run --name hostname-test --network host --rm -i -t --hostname xyz python:alpine /bin/sh
