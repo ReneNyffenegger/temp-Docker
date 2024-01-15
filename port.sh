@@ -1,14 +1,15 @@
 #!/bin/sh
 
+#   file:///home/rene/renenyffenegger.ch/local/notes/development/tools/Docker/networking/index.html
+
 #
 #  Publishing Ports.
 #
 
-docker pull python:alpine
 
 # Open new container
 
-  docker run --name python-alpine-test --rm -i -t python:alpine  /bin/sh
+  docker run --rm -it --name no-listener -p 8001:8001 busybox /bin/sh
 
 # in /bin/sh in container, do:
 
@@ -46,7 +47,7 @@ $ docker port port-published-test
   docker exec -it port-published-test  /bin/sh
 
 # other tests
-  docker run --name port-published-test --rm -i -t -p 8001:8001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 127.0.0.1'
+  docker run --name port-published-test --rm -i -t -p 8001:8001 python:alpine  /bin/sh -c 'python -m http.server 8001 --directory /etc --bind 127.0.0.1'
   docker run --name port-published-test --rm -i -t -p 8001:7001 python:alpine  /bin/sh -c 'cd /etc; python -m http.server 8001 --bind 0.0.0.0'          # 
 
 
@@ -102,6 +103,13 @@ curl: (56) Recv failure: Connection reset by peer
 
   docker run --name communication-test-client --rm -i -t              python:alpine  /bin/sh -c 'wget http://localhost:8001'
 
+    # * Test with nc *
+
+  docker run --name communication-test-server --rm -i -t --hostname srv busybox /bin/sh -c 'hostname; ip a; httpd -f -p 8001 -h /etc'
+
+  docker run --name communication-test-client --rm -i -t              wget 172.17.0.2:8001/hosts -q -O -
+
+
 # ---------------------------------------------------------
 
   docker network create -d bridge client-server-network
@@ -112,6 +120,13 @@ curl: (56) Recv failure: Connection reset by peer
    curl: (7) Failed to connect to localhost port 8001: Connection refused
 
   docker run --name communication-test-client --rm -i -t --network client-server-network python:alpine  /bin/sh -c 'wget http://localhost:8001'
+
+
+
+   # * * *
+
+  docker run --name communication-test-server --rm -i -t --network client-server-network --hostname srv busybox /bin/sh -c 'hostname; ip a; httpd  -p 8001 -h /etc'
+  docker run --name communication-test-client --rm -i -t --network client-server-network                busybox /bin/sh -c 'wget http://srv:8001/hosts -q -O -'
 
 # --------------------------
   #  access port on host
