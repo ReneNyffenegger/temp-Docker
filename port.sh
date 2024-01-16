@@ -129,6 +129,8 @@ curl: (56) Recv failure: Connection reset by peer
   docker run --name communication-test-client --rm -i -t --network client-server-network                busybox /bin/sh -c 'wget http://srv:8001/hosts -q -O -'
 
 # --------------------------
+
+# --------------------------
   #  access port on host
 
   # On host
