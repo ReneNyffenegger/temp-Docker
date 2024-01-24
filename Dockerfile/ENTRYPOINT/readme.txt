@@ -19,3 +19,18 @@ https://learnk8s.io/blog/smaller-docker-images
      When Docker detects the JSON syntax, it runs the arguments directly, without a shell.
 
 ps -eo 'tty,pid,comm' | grep ^?
+
+   $ tty
+     …
+
+   on other shell:
+
+   $  ps t pts/4
+       PID TTY      STAT   TIME COMMAND
+      10256 pts/4    Ss+    0:00 -bash
+
+   On first shell
+
+   $ docker run  -it --name alpine-ps-test alpine /bin/sh -c echo find me
+
+   docker rm alpine-ps-test
