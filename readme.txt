@@ -8,5 +8,8 @@ TODO:
        basename $(cat /proc/1/cpuset)              -- returns the container id? 
 
 
+
+Squashing «commit» layers when building a new container: https://learnk8s.io/blog/smaller-docker-images
+ 
 sa:
   https://github.com/ReneNyffenegger/temp-virtualization
