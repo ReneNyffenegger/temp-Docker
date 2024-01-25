@@ -1,0 +1,7 @@
+FROM busybox
+
+ENTRYPOINT ["httpd", "-f", "-p", "8422"]
+
+# EXPOSE 8422
+
+# CMD /bin/sh wget localhost:8422/etc/passwd -O-
