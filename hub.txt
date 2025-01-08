@@ -1,4 +1,4 @@
-Docker Hub is the world’s largest repository of container images 
+Docker Hub is the world's largest repository of container images 
 
 Docker Hub is a hosted repository service provided by Docker for finding and sharing container images with your team. 
 

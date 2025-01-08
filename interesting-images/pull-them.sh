@@ -1,6 +1,7 @@
 # docker pull scratch reserved image
 docker pull alpine                         # busybox builds on alpine
 docker pull busybox                        # alpine builds on busybox
+docker pull gcc
 
 #
 # distroless containers are very small:                   (  a “distroless” image is one which contains only the application and its dependencies.  )
