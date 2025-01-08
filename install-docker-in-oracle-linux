@@ -1,0 +1,27 @@
+   sudo dnf update -y
+
+Prerequisites
+
+   sudo dnf install -y yum-utils device-mapper-persistent-data lvm2
+
+Setup docker repository
+
+   sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+Install:
+
+   sudo dnf install -y docker-ce docker-ce-cli containerd.io
+
+Verify installation
+
+   sudo docker --version
+
+   sudo docker run hello-world
+
+----------
+   
+Start and Enable Docker
+
+   sudo systemctl start docker
+   sudo systemctl enable docker
+
