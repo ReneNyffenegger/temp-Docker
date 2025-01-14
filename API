@@ -1,0 +1,3 @@
+TOKEN=$( curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:gitlab/gitlab-runner-helper:pull" | jq -r '.token' )
+TAGS=$( curl -s https://registry.hub.docker.com/v2/gitlab/gitlab-runner-helper/tags/list -H "Authorization: Bearer $TOKEN" | jq ".tags[]" | sed 's/"//g' | grep x86_64 )
+for tag in $TAGS; do echo $tag; done
